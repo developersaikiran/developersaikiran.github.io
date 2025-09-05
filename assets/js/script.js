@@ -157,3 +157,41 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+
+
+document.querySelectorAll(".project-carousel").forEach(carousel => {
+  const slides = carousel.querySelector(".slides");
+  const images = slides.querySelectorAll("img");
+  const prevBtn = carousel.querySelector(".prev");
+  const nextBtn = carousel.querySelector(".next");
+  const figure = carousel.querySelector(".project-img");
+
+  let index = 0;
+  let autoSlideInterval;
+
+  function showSlide(i) {
+    index = (i + images.length) % images.length;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  // Manual navigation
+  prevBtn.addEventListener("click", () => showSlide(index - 1));
+  nextBtn.addEventListener("click", () => showSlide(index + 1));
+
+  // Auto slide on hover (desktop)
+  figure.addEventListener("mouseenter", () => {
+    setTimeout(() => {
+      showSlide(index + 1)
+    }, 500)
+    autoSlideInterval = setInterval(() => showSlide(index + 1), 2000);
+  });
+
+  figure.addEventListener("mouseleave", () => {
+    clearInterval(autoSlideInterval);
+  });
+
+  // Initialize
+  showSlide(0);
+});
